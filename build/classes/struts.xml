@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+<struts>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.action.extension" value="action,html,do" />
+	<constant name="struts.action.excludePattern" value="/resources/.*,/webdruidmonitor/.*,/images/.*,/css/.*" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+	<constant name="struts.multipart.maxSize" value="10000000000" />
+	
+	<package name="public-base" extends="struts-default">
+	
+		<!-- 加入Struts JSON插件  -->
+		<result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult" />
+        </result-types>
+        
+        <interceptors>
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor" />
+            
+             <interceptor-stack name="publicStack">
+			 	<interceptor-ref name="paramsPrepareParamsStack" />
+			 	<!-- <interceptor-ref name="tokenSession">
+			 		<param name="includeMethods">login</param>
+			 	</interceptor-ref> -->
+			 </interceptor-stack>
+			 
+        </interceptors>
+        
+   		<default-interceptor-ref name="publicStack" />
+        
+        <!-- 全局结果集   -->
+        <global-results>
+            <result name="noPrivilege">/pages/admin/noPrivilege.jsp</result>
+        	<result name="notLogin">/pages/admin/login.jsp</result>
+        	<result name="invalid.token" type="redirect">/pages/admin/login.jsp</result>
+        	<result name="exception">/pages/admin/error.jsp</result>
+        	<result name="json" type="json"><param name="root">resultMap</param></result>
+        	
+        </global-results>
+        <!-- 全局异常处理 --> 
+        <global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+	</package>
+	
+		<!-- 自定义包  所有需要登录的操作都可继承此包  -->
+	<package name="private-base" extends="public-base" abstract="true">
+		<interceptors>
+			 <interceptor-stack name="myStack">
+			 	<interceptor-ref name="paramsPrepareParamsStack" />
+			 </interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myStack" />
+	</package>
+	
+    <include file="struts/struts-*.xml"/>
+</struts>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" version="2.1">
+	<tlib-version>1.0</tlib-version>
+	<short-name>wd</short-name>
+	<uri>tags-wd</uri>
+
+	<function>
+		<name>contains</name>
+		<function-class>com.htlab.mis.util.StringUtil</function-class>
+		<function-signature>
+			boolean contains(java.util.List,java.lang.String)
+		</function-signature>
+	</function>
+	<function>
+		<description>
+      limit string value.
+    </description>
+		<name>limit</name>
+		<function-class>com.htlab.mis.util.StringUtil</function-class>
+		<function-signature>java.lang.String limitText(java.lang.String, int)</function-signature>
+		<example>
+      ${wd:limit(title, 10)}
+    </example>
+	</function>
+
+	<function>
+		<description>
+      convert String to html
+    </description>
+		<name>convertToHtml</name>
+		<function-class>com.htlab.mis.util.StringUtil</function-class>
+		<function-signature>java.lang.String convertToHtml(java.lang.String)</function-signature>
+		<example>
+      ${wd:convertToHtml(str)}
+    </example>
+	</function>
+	
+
+</taglib>
